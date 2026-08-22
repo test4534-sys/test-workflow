@@ -24,3 +24,11 @@ jobs:
           echo "User: $(whoami)"
           echo "Operating System:"
           uname -a
+
+      - name: Test Docker
+        run: |
+          echo "Docker version:"
+          docker --version
+
+          echo "Docker status:"
+          docker ps
