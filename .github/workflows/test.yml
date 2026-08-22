@@ -1,0 +1,22 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test-runner:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Test runner
+        run: |
+          echo "GitHub Actions is working"
+          echo "Runner: $(hostname)"
+          echo "User: $(whoami)"
+          echo "Operating System:"
+          uname -a
