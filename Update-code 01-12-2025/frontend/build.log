@@ -1,0 +1,13 @@
+
+> zfs-iscsi-manager-frontend@2.0.0 build
+> vite build
+
+vite v7.1.12 building for production...
+transforming...
+✓ 1432 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.46 kB │ gzip:   0.30 kB
+dist/assets/index-D9qKq9uE.css   31.54 kB │ gzip:   5.90 kB
+dist/assets/index-DJMxppTE.js   426.35 kB │ gzip: 106.97 kB
+✓ built in 3.14s

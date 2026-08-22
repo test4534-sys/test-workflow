@@ -1,0 +1,313 @@
+1. Tools used to install in the ubuntu
+
+sudo apt update && sudo apt upgrade -y
+sudo apt install zfsutils-linux -y
+sudo apt install targetcli-fb -y
+sudo apt install open-iscsi -y
+sudo apt install samba -y
+sudo apt install samba-vfs-modules -y
+sudo apt install rear -y
+
+sudo apt install net-tools -y
+sudo apt install curl
+
+sudo apt install npm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+source ~/.bashrc
+nvm install 20
+nvm use 20
+
+sudo apt install python3-pip -y
+sudo apt install python3.12-venv -y
+
+=================================================
+
+2. Enable and start services
+
+Enable and start ZFS services:
+
+sudo systemctl status zfs.target
+see it active and enabled.
+If not, enable it:
+sudo systemctl enable zfs.target
+sudo systemctl start zfs.target
+
+sudo systemctl status zfs-import-cache.service
+sudo systemctl status zfs-import-scan.service
+see it active and enabled.
+If not, enable it:
+sudo systemctl enable zfs-import-cache.service
+sudo systemctl enable zfs-import-scan.service
+sudo systemctl start zfs-import-scan.service
+
+
+Enable and start iSCSI target service:
+
+sudo systemctl status target
+see it active and enabled.
+If not, enable it:
+sudo systemctl enable target
+sudo systemctl start target
+
+Enable and start Samba service:
+
+sudo systemctl status smbd
+see it active and enabled.
+If not, enable it:
+sudo systemctl enable smbd
+sudo systemctl start smbd
+
+=============================================================
+
+3. For web ui installation
+Readme
+Change the directory to your code folder
+
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+python3 -m pip install --upgrade pip
+pip install -r requirements.txt
+python main.py
+
+cd frontend
+npm install
+npm run dev
+
+
+for broken pakages:
+
+npm audit fix --force
+
+For version error of npm and vite:
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+source ~/.bashrc
+nvm install 20
+nvm use 20
+
+=====================================================================
+
+4. To create the service 
+
+⚙️ Step 1: Create the Backend Systemd Service
+
+
+sudo nano /etc/systemd/system/backend.service
+
+[Unit]
+Description=ZFS Backend
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/Documents/Web-1/backend
+ExecStart=/bin/bash -c 'source venv/bin/activate && python main.py'
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/backend.log
+StandardError=append:/var/log/backend_error.log
+
+[Install]
+WantedBy=multi-user.target
+----------------------------------
+running as the root
+
+[Unit]
+Description=ZFS Backend (Venv)
+After=network.target
+
+[Service]
+WorkingDirectory=/home/ubuntu/Web-Nas/backend
+ExecStart=/home/ubuntu/Web-Nas/backend/venv/bin/python3 main.py
+Restart=always
+StandardOutput=append:/var/log/backend.log
+StandardError=append:/var/log/backend_error.log
+
+[Install]
+WantedBy=multi-user.target
+----------------------------------
+
+⚙️ Step 2: Create the Frontend Systemd Service
+
+sudo nano /etc/systemd/system/frontend.service
+
+[Unit]
+Description=ZFS iSCSI Manager Frontend
+After=network.target
+
+[Service]
+User=ubuntu
+Environment=HOME=/home/ubuntu
+Environment=NVM_DIR=/home/ubuntu/.nvm
+WorkingDirectory=/home/ubuntu/Documents/Web-1/frontend
+ExecStart=/bin/bash -c 'source $NVM_DIR/nvm.sh && nvm use 20 && npm run dev'
+Restart=always
+RestartSec=5
+StandardOutput=append:/var/log/frontend.log
+StandardError=append:/var/log/frontend_error.log
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+⚙️ Step 3: Enable and Start Both
+
+Run these commands to activate the services:
+
+sudo systemctl daemon-reload
+sudo systemctl enable backend.service
+sudo systemctl enable frontend.service
+sudo systemctl start backend.service
+sudo systemctl start frontend.service
+
+🧭 Step 4: Check if They’re Running
+
+Check backend:
+
+sudo systemctl status backend.service
+
+Check frontend:
+
+sudo systemctl status frontend.service
+
+🪵 Logs (for debugging)
+
+Backend logs:
+
+sudo tail -f /var/log/backend.log
+sudo tail -f /var/log/backend_error.log
+
+Frontend logs:
+
+sudo tail -f /var/log/frontend.log
+sudo tail -f /var/log/frontend_error.log
+
+
+🔁 (Optional) Restart Both After Editing Code
+
+Whenever you change code:
+
+sudo systemctl restart backend.service
+sudo systemctl restart frontend.service
+
+
+✅ Result:
+Now, every time your Ubuntu system boots:
+
+The backend will auto-start as root at http://localhost:8000
+
+The frontend will auto-start as ubuntu at http://localhost:3000
+
+
+===============================================================
+
+Use this if not running using the service
+
+
+5. Configure sudo Access
+Allow the application user to run specific commands without password
+The application requires sudo access for ZFS and iSCSI operations. Add the following to  (use `sudo visudo`):
+
+
+sudo visudo
+
+Paste the following lines in the end f file
+
+# ZFS iSCSI Manager - Complete sudo permissions
+ubuntu ALL=(ALL) NOPASSWD: /usr/sbin/zpool, /usr/sbin/zfs, /usr/sbin/zfs-list, /usr/sbin/zdb
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/lsblk, /bin/ls
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/targetcli, /usr/sbin/targetcli
+ubuntu ALL=(ALL) NOPASSWD: /usr/sbin/iscsiadm
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl start target, /usr/bin/systemctl stop target, /usr/bin/systemctl restart target
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl is-active target, /usr/bin/systemctl is-active smbd, /usr/bin/systemctl is-active nmbd
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart smbd, /usr/bin/systemctl restart nmbd
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl start smbd, /usr/bin/systemctl start nmbd
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl stop smbd, /usr/bin/systemctl stop nmbd
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl status smbd, /usr/bin/systemctl status nmbd
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/targetctl
+
+# Samba configuration 
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl show smbd, /usr/bin/systemctl show nmbd, /usr/bin/systemctl show target
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/smbpasswd, /usr/sbin/smbpasswd
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/pdbedit, /usr/sbin/pdbedit
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/testparm, /usr/sbin/testparm
+ubuntu ALL=(ALL) NOPASSWD: /bin/cat /etc/samba/smb.conf
+ubuntu ALL=(ALL) NOPASSWD: /bin/cp /tmp/* /etc/samba/smb.conf
+ubuntu ALL=(ALL) NOPASSWD: /bin/cp /etc/samba/smb.conf /etc/samba/smb.conf.backup
+ubuntu ALL=(ALL) NOPASSWD: /bin/chmod 644 /etc/samba/smb.conf
+ubuntu ALL=(ALL) NOPASSWD: /bin/test -f /etc/samba/smb.conf
+
+# User and group management
+ubuntu ALL=(ALL) NOPASSWD: /usr/sbin/useradd, /usr/sbin/userdel, /usr/sbin/usermod
+ubuntu ALL=(ALL) NOPASSWD: /usr/sbin/groupadd, /usr/sbin/groupdel, /usr/sbin/gpasswd
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/passwd, /usr/sbin/passwd
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/chpasswd, /usr/sbin/chpasswd
+ubuntu ALL=(ALL) NOPASSWD: /bin/echo
+ubuntu ALL=(ALL) NOPASSWD: /bin/cat
+
+# File operations
+ubuntu ALL=(ALL) NOPASSWD: /bin/chown, /bin/chmod, /usr/bin/find
+ubuntu ALL=(ALL) NOPASSWD: /bin/mkdir, /bin/rm, /usr/bin/tee
+
+# Network and system info
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/ip -o link show, /usr/bin/ip -o addr show
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/journalctl -n 20, /usr/bin/journalctl -u smbd, /usr/bin/journalctl -u nmbd
+
+# Additional missing commands from your logs
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/id, /usr/bin/groups, /usr/bin/getent
+ubuntu ALL=(ALL) NOPASSWD: /bin/cat /etc/passwd, /bin/cat /etc/group
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/stat
+
+# ZFS specific - ADDED ZDB AND ALTERNATIVE PATHS
+ubuntu ALL=(ALL) NOPASSWD: /sbin/zpool, /sbin/zfs, /sbin/zdb
+ubuntu ALL=(ALL) NOPASSWD: /bin/zpool, /bin/zfs, /bin/zdb
+
+# Service management for all services
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl show *
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl start *, /usr/bin/systemctl stop *, /usr/bin/systemctl restart *
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl enable *, /usr/bin/systemctl disable *
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl is-active *, /usr/bin/systemctl status *
+
+# NETPLAN CONFIGURATION
+ubuntu ALL=(ALL) NOPASSWD: /bin/cat /etc/netplan/*
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/ls /etc/netplan/
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/test -f /etc/netplan/*
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/test -d /etc/netplan
+
+# NETWORK COMMANDS
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/ip *
+ubuntu ALL=(ALL) NOPASSWD: /bin/cat /proc/net/route
+ubuntu ALL=(ALL) NOPASSWD: /bin/cat /etc/hostname
+ubuntu ALL=(ALL) NOPASSWD: /bin/cat /etc/hosts
+
+# JOURNALCTL
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/journalctl *
+
+# ADDITIONAL SYSTEM COMMANDS
+ubuntu ALL=(ALL) NOPASSWD: /bin/hostname
+ubuntu ALL=(ALL) NOPASSWD: /bin/grep
+
+# ZFS disk wiping
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/wipefs, /sbin/wipefs
+ubuntu ALL=(ALL) NOPASSWD: /bin/dd
+ubuntu ALL=(ALL) NOPASSWD: /usr/sbin/sgdisk, /sbin/sgdisk
+ubuntu ALL=(ALL) NOPASSWD: /usr/sbin/parted, /sbin/parted
+
+# ADDITIONAL DISCOVERY COMMANDS
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/which, /usr/bin/whereis
+ubuntu ALL=(ALL) NOPASSWD: /bin/readlink
+
+# Add these specific lines for rsyslog
+ubuntu ALL=(ALL) NOPASSWD: /bin/cp /tmp/* /etc/rsyslog.d/*
+ubuntu ALL=(ALL) NOPASSWD: /bin/chmod 644 /etc/rsyslog.d/*
+ubuntu ALL=(ALL) NOPASSWD: /bin/cat /etc/rsyslog.d/*
+ubuntu ALL=(ALL) NOPASSWD: /usr/bin/systemctl restart rsyslog
+
+save and exit the file
+
+To check the syntax is correct
+
+sudo visudo -c
+==============================================================================

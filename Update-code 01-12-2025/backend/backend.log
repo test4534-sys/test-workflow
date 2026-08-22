@@ -1,0 +1,783 @@
+2025-11-07 17:41:47,502 - __main__ - INFO - ✓ All backend managers initialized successfully
+2025-11-07 17:41:47,570 - __main__ - INFO - Starting ZFS iSCSI Manager API...
+2025-11-07 17:41:47,570 - __main__ - INFO - Local URL: http://localhost:8000
+2025-11-07 17:41:47,570 - __main__ - INFO - Network URL: http://127.0.1.1:8000
+2025-11-07 17:41:47,570 - __main__ - INFO - API documentation: http://localhost:8000/docs
+INFO:     Started server process [130033]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+2025-11-07 17:41:51,911 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:41:51,931 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:41:52,119 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active smbd
+2025-11-07 17:41:52,126 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:41:52,126 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:41:52,126 - samba_manager - INFO - Samba Manager - Running command: systemctl show smbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:41:52,134 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:41:52,135 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:41:52,135 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active nmbd
+2025-11-07 17:41:52,142 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:41:52,142 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:41:52,142 - samba_manager - INFO - Samba Manager - Running command: systemctl show nmbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:41:52,150 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:41:52,150 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:41:52,150 - zfs_manager - INFO - ZFS Manager - Running command: sudo -n zpool list 2>&1
+2025-11-07 17:41:52,167 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+=== GETTING TARGETS ===
+Running command: sudo targetcli ls /iscsi 2>/dev/null
+Command returncode: 0
+Command stdout: o- iscsi .............................................................................................................. [Targets: 2]
+  o- iqn.2025-09.local.ubuntu:pgdata ..................................................................................... [TPGs: 1]
+  | o- tpg1 .................................................................................................... [gen-acls, no-auth]
+  |   o- acls ............................................................................................................ [ACLs: 0]
+  |   o- luns ............................................................................................................ [LUNs: 1]
+  |   | o- lun0 ........................................................ [block/pgdata (/dev/zvol/pgdata/pgdata) (default_tg_pt_gp)]
+  |   o- portals ...................................................................................................... [Portals: 1]
+  |     o- 0.0.0.0:3260 ....................................................................................................... [OK]
+  o- iqn.2025-09.local.ubuntu:sqldata .................................................................................... [TPGs: 1]
+    o- tpg1 .................................................................................................... [gen-acls, no-auth]
+      o- acls ............................................................................................................ [ACLs: 0]
+      o- luns ............................................................................................................ [LUNs: 1]
+      | o- lun0 ................................................. [block/sqldata (/dev/zvol/sqldata/sqldata-vol) (default_tg_pt_gp)]
+      o- portals ...................................................................................................... [Portals: 1]
+        o- 0.0.0.0:3260 ....................................................................................................... [OK]
+
+Found target: iqn.2025-09.local.ubuntu:pgdata
+  - LUN 0: pgdata
+Found target: iqn.2025-09.local.ubuntu:sqldata
+  - LUN 0: sqldata
+Returning 2 targets
+INFO:     127.0.0.1:55192 - "GET /health HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50348 - "OPTIONS /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50362 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50348 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50348 - "OPTIONS /api/system/status?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50362 - "OPTIONS /api/zfs/pools?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50378 - "OPTIONS /api/targets?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50392 - "OPTIONS /api/samba/shares?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50394 - "OPTIONS /api/network/interfaces?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50398 - "OPTIONS /api/system/info?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50348 - "OPTIONS /api/system/status?_t=1762517687346 HTTP/1.1" 200 OK
+2025-11-07 17:44:47,472 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool status
+2025-11-07 17:44:47,520 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:44:47,520 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active smbd
+2025-11-07 17:44:47,569 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:44:47,570 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:44:47,571 - samba_manager - INFO - Samba Manager - Running command: systemctl show smbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:44:47,598 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:44:47,599 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:44:47,599 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active nmbd
+2025-11-07 17:44:47,632 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:44:47,632 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:44:47,632 - samba_manager - INFO - Samba Manager - Running command: systemctl show nmbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:44:47,661 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:44:47,662 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+Running command: sudo systemctl is-active target
+Command returncode: 0
+Command stdout: active
+
+Running command: sudo systemctl show target --property=ActiveState,SubState --no-pager
+Command returncode: 0
+Command stdout: ActiveState=active
+SubState=exited
+
+INFO:     172.25.3.48:50362 - "GET /api/system/status?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50378 - "OPTIONS /api/zfs/pools?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50392 - "OPTIONS /api/targets?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50394 - "OPTIONS /api/samba/shares?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50398 - "OPTIONS /api/network/interfaces?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50348 - "OPTIONS /api/system/info?_t=1762517687346 HTTP/1.1" 200 OK
+2025-11-07 17:44:47,672 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:44:47,726 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:50362 - "GET /api/zfs/pools?_t=1762517687346 HTTP/1.1" 200 OK
+=== GETTING TARGETS ===
+Running command: sudo targetcli ls /iscsi 2>/dev/null
+Command returncode: 0
+Command stdout: o- iscsi .............................................................................................................. [Targets: 2]
+  o- iqn.2025-09.local.ubuntu:pgdata ..................................................................................... [TPGs: 1]
+  | o- tpg1 .................................................................................................... [gen-acls, no-auth]
+  |   o- acls ............................................................................................................ [ACLs: 0]
+  |   o- luns ............................................................................................................ [LUNs: 1]
+  |   | o- lun0 ........................................................ [block/pgdata (/dev/zvol/pgdata/pgdata) (default_tg_pt_gp)]
+  |   o- portals ...................................................................................................... [Portals: 1]
+  |     o- 0.0.0.0:3260 ....................................................................................................... [OK]
+  o- iqn.2025-09.local.ubuntu:sqldata .................................................................................... [TPGs: 1]
+    o- tpg1 .................................................................................................... [gen-acls, no-auth]
+      o- acls ............................................................................................................ [ACLs: 0]
+      o- luns ............................................................................................................ [LUNs: 1]
+      | o- lun0 ................................................. [block/sqldata (/dev/zvol/sqldata/sqldata-vol) (default_tg_pt_gp)]
+      o- portals ...................................................................................................... [Portals: 1]
+        o- 0.0.0.0:3260 ....................................................................................................... [OK]
+
+Found target: iqn.2025-09.local.ubuntu:pgdata
+  - LUN 0: pgdata
+Found target: iqn.2025-09.local.ubuntu:sqldata
+  - LUN 0: sqldata
+Returning 2 targets
+INFO:     172.25.3.48:50378 - "GET /api/targets?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50392 - "GET /api/samba/shares?_t=1762517687346 HTTP/1.1" 200 OK
+2025-11-07 17:44:48,167 - network_manager - INFO - Found netplan files: ['50-cloud-init.yaml', '90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml']
+2025-11-07 17:44:48,169 - network_manager - INFO - Reading netplan file: /etc/netplan/50-cloud-init.yaml
+2025-11-07 17:44:48,186 - network_manager - INFO - Reading netplan file: /etc/netplan/90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml
+2025-11-07 17:44:48,217 - network_manager - INFO - Final DNS servers from netplan: []
+INFO:     172.25.3.48:50394 - "GET /api/network/interfaces?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50398 - "GET /api/system/info?_t=1762517687346 HTTP/1.1" 200 OK
+2025-11-07 17:44:48,357 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool status
+2025-11-07 17:44:48,401 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:44:48,401 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active smbd
+2025-11-07 17:44:48,413 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:44:48,414 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:44:48,414 - samba_manager - INFO - Samba Manager - Running command: systemctl show smbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:44:48,430 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:44:48,430 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:44:48,430 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active nmbd
+2025-11-07 17:44:48,448 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:44:48,450 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:44:48,450 - samba_manager - INFO - Samba Manager - Running command: systemctl show nmbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:44:48,466 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:44:48,466 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+Running command: sudo systemctl is-active target
+Command returncode: 0
+Command stdout: active
+
+Running command: sudo systemctl show target --property=ActiveState,SubState --no-pager
+Command returncode: 0
+Command stdout: ActiveState=active
+SubState=exited
+
+INFO:     172.25.3.48:50348 - "GET /api/system/status?_t=1762517687346 HTTP/1.1" 200 OK
+2025-11-07 17:44:48,468 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:44:48,495 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:50362 - "GET /api/zfs/pools?_t=1762517687346 HTTP/1.1" 200 OK
+=== GETTING TARGETS ===
+Running command: sudo targetcli ls /iscsi 2>/dev/null
+Command returncode: 0
+Command stdout: o- iscsi .............................................................................................................. [Targets: 2]
+  o- iqn.2025-09.local.ubuntu:pgdata ..................................................................................... [TPGs: 1]
+  | o- tpg1 .................................................................................................... [gen-acls, no-auth]
+  |   o- acls ............................................................................................................ [ACLs: 0]
+  |   o- luns ............................................................................................................ [LUNs: 1]
+  |   | o- lun0 ........................................................ [block/pgdata (/dev/zvol/pgdata/pgdata) (default_tg_pt_gp)]
+  |   o- portals ...................................................................................................... [Portals: 1]
+  |     o- 0.0.0.0:3260 ....................................................................................................... [OK]
+  o- iqn.2025-09.local.ubuntu:sqldata .................................................................................... [TPGs: 1]
+    o- tpg1 .................................................................................................... [gen-acls, no-auth]
+      o- acls ............................................................................................................ [ACLs: 0]
+      o- luns ............................................................................................................ [LUNs: 1]
+      | o- lun0 ................................................. [block/sqldata (/dev/zvol/sqldata/sqldata-vol) (default_tg_pt_gp)]
+      o- portals ...................................................................................................... [Portals: 1]
+        o- 0.0.0.0:3260 ....................................................................................................... [OK]
+
+Found target: iqn.2025-09.local.ubuntu:pgdata
+  - LUN 0: pgdata
+Found target: iqn.2025-09.local.ubuntu:sqldata
+  - LUN 0: sqldata
+Returning 2 targets
+INFO:     172.25.3.48:50392 - "GET /api/targets?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50378 - "GET /api/samba/shares?_t=1762517687346 HTTP/1.1" 200 OK
+2025-11-07 17:44:48,891 - network_manager - INFO - Found netplan files: ['50-cloud-init.yaml', '90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml']
+2025-11-07 17:44:48,892 - network_manager - INFO - Reading netplan file: /etc/netplan/50-cloud-init.yaml
+2025-11-07 17:44:48,911 - network_manager - INFO - Reading netplan file: /etc/netplan/90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml
+2025-11-07 17:44:48,934 - network_manager - INFO - Final DNS servers from netplan: []
+INFO:     172.25.3.48:50394 - "GET /api/network/interfaces?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:50398 - "GET /api/system/info?_t=1762517687346 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49680 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49682 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49682 - "OPTIONS /api/system/status?_t=1762517700813 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49680 - "OPTIONS /api/zfs/pools?_t=1762517700813 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49692 - "OPTIONS /api/targets?_t=1762517700813 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49696 - "OPTIONS /api/samba/shares?_t=1762517700813 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49702 - "OPTIONS /api/network/interfaces?_t=1762517700813 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49716 - "OPTIONS /api/system/info?_t=1762517700813 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49682 - "OPTIONS /api/system/status?_t=1762517700813 HTTP/1.1" 200 OK
+2025-11-07 17:45:00,956 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool status
+2025-11-07 17:45:00,989 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:45:00,989 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active smbd
+2025-11-07 17:45:01,013 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:01,013 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:45:01,014 - samba_manager - INFO - Samba Manager - Running command: systemctl show smbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:45:01,027 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:01,027 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:45:01,028 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active nmbd
+2025-11-07 17:45:01,035 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:01,035 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:45:01,036 - samba_manager - INFO - Samba Manager - Running command: systemctl show nmbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:45:01,044 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:01,045 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+Running command: sudo systemctl is-active target
+Command returncode: 0
+Command stdout: active
+
+Running command: sudo systemctl show target --property=ActiveState,SubState --no-pager
+Command returncode: 0
+Command stdout: ActiveState=active
+SubState=exited
+
+INFO:     172.25.3.48:49680 - "GET /api/system/status?_t=1762517700813 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49692 - "OPTIONS /api/zfs/pools?_t=1762517700813 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49696 - "OPTIONS /api/targets?_t=1762517700813 HTTP/1.1" 200 OK
+2025-11-07 17:45:01,047 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:45:01,066 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:49702 - "GET /api/zfs/pools?_t=1762517700813 HTTP/1.1" 200 OK
+=== GETTING TARGETS ===
+Running command: sudo targetcli ls /iscsi 2>/dev/null
+Command returncode: 0
+Command stdout: o- iscsi .............................................................................................................. [Targets: 2]
+  o- iqn.2025-09.local.ubuntu:pgdata ..................................................................................... [TPGs: 1]
+  | o- tpg1 .................................................................................................... [gen-acls, no-auth]
+  |   o- acls ............................................................................................................ [ACLs: 0]
+  |   o- luns ............................................................................................................ [LUNs: 1]
+  |   | o- lun0 ........................................................ [block/pgdata (/dev/zvol/pgdata/pgdata) (default_tg_pt_gp)]
+  |   o- portals ...................................................................................................... [Portals: 1]
+  |     o- 0.0.0.0:3260 ....................................................................................................... [OK]
+  o- iqn.2025-09.local.ubuntu:sqldata .................................................................................... [TPGs: 1]
+    o- tpg1 .................................................................................................... [gen-acls, no-auth]
+      o- acls ............................................................................................................ [ACLs: 0]
+      o- luns ............................................................................................................ [LUNs: 1]
+      | o- lun0 ................................................. [block/sqldata (/dev/zvol/sqldata/sqldata-vol) (default_tg_pt_gp)]
+      o- portals ...................................................................................................... [Portals: 1]
+        o- 0.0.0.0:3260 ....................................................................................................... [OK]
+
+Found target: iqn.2025-09.local.ubuntu:pgdata
+  - LUN 0: pgdata
+Found target: iqn.2025-09.local.ubuntu:sqldata
+  - LUN 0: sqldata
+Returning 2 targets
+INFO:     172.25.3.48:49716 - "GET /api/targets?_t=1762517700813 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49682 - "GET /api/samba/shares?_t=1762517700813 HTTP/1.1" 200 OK
+2025-11-07 17:45:01,419 - network_manager - INFO - Found netplan files: ['50-cloud-init.yaml', '90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml']
+2025-11-07 17:45:01,419 - network_manager - INFO - Reading netplan file: /etc/netplan/50-cloud-init.yaml
+2025-11-07 17:45:01,462 - network_manager - INFO - Reading netplan file: /etc/netplan/90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml
+2025-11-07 17:45:01,489 - network_manager - INFO - Final DNS servers from netplan: []
+INFO:     172.25.3.48:49680 - "GET /api/network/interfaces?_t=1762517700813 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49692 - "OPTIONS /api/network/interfaces?_t=1762517700814 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49696 - "OPTIONS /api/system/info?_t=1762517700814 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49702 - "GET /api/system/info?_t=1762517700813 HTTP/1.1" 200 OK
+2025-11-07 17:45:01,574 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool status
+2025-11-07 17:45:01,633 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:45:01,633 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active smbd
+2025-11-07 17:45:01,651 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:01,654 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:45:01,654 - samba_manager - INFO - Samba Manager - Running command: systemctl show smbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:45:01,671 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:01,671 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:45:01,671 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active nmbd
+2025-11-07 17:45:01,684 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:01,685 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:45:01,685 - samba_manager - INFO - Samba Manager - Running command: systemctl show nmbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:45:01,717 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:01,717 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+Running command: sudo systemctl is-active target
+Command returncode: 0
+Command stdout: active
+
+Running command: sudo systemctl show target --property=ActiveState,SubState --no-pager
+Command returncode: 0
+Command stdout: ActiveState=active
+SubState=exited
+
+INFO:     172.25.3.48:49716 - "GET /api/system/status?_t=1762517700813 HTTP/1.1" 200 OK
+2025-11-07 17:45:01,720 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:45:01,766 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:49682 - "GET /api/zfs/pools?_t=1762517700813 HTTP/1.1" 200 OK
+=== GETTING TARGETS ===
+Running command: sudo targetcli ls /iscsi 2>/dev/null
+Command returncode: 0
+Command stdout: o- iscsi .............................................................................................................. [Targets: 2]
+  o- iqn.2025-09.local.ubuntu:pgdata ..................................................................................... [TPGs: 1]
+  | o- tpg1 .................................................................................................... [gen-acls, no-auth]
+  |   o- acls ............................................................................................................ [ACLs: 0]
+  |   o- luns ............................................................................................................ [LUNs: 1]
+  |   | o- lun0 ........................................................ [block/pgdata (/dev/zvol/pgdata/pgdata) (default_tg_pt_gp)]
+  |   o- portals ...................................................................................................... [Portals: 1]
+  |     o- 0.0.0.0:3260 ....................................................................................................... [OK]
+  o- iqn.2025-09.local.ubuntu:sqldata .................................................................................... [TPGs: 1]
+    o- tpg1 .................................................................................................... [gen-acls, no-auth]
+      o- acls ............................................................................................................ [ACLs: 0]
+      o- luns ............................................................................................................ [LUNs: 1]
+      | o- lun0 ................................................. [block/sqldata (/dev/zvol/sqldata/sqldata-vol) (default_tg_pt_gp)]
+      o- portals ...................................................................................................... [Portals: 1]
+        o- 0.0.0.0:3260 ....................................................................................................... [OK]
+
+Found target: iqn.2025-09.local.ubuntu:pgdata
+  - LUN 0: pgdata
+Found target: iqn.2025-09.local.ubuntu:sqldata
+  - LUN 0: sqldata
+Returning 2 targets
+INFO:     172.25.3.48:49680 - "GET /api/targets?_t=1762517700813 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49692 - "GET /api/samba/shares?_t=1762517700813 HTTP/1.1" 200 OK
+2025-11-07 17:45:02,545 - network_manager - INFO - Found netplan files: ['50-cloud-init.yaml', '90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml']
+2025-11-07 17:45:02,546 - network_manager - INFO - Reading netplan file: /etc/netplan/50-cloud-init.yaml
+2025-11-07 17:45:02,574 - network_manager - INFO - Reading netplan file: /etc/netplan/90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml
+2025-11-07 17:45:02,606 - network_manager - INFO - Final DNS servers from netplan: []
+INFO:     172.25.3.48:49696 - "GET /api/network/interfaces?_t=1762517700814 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:49702 - "GET /api/system/info?_t=1762517700814 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33496 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33500 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33500 - "OPTIONS /api/system/status?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33496 - "OPTIONS /api/zfs/pools?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33516 - "OPTIONS /api/targets?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33528 - "OPTIONS /api/samba/shares?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33538 - "OPTIONS /api/network/interfaces?_t=1762517743454 HTTP/1.1" 200 OK
+2025-11-07 17:45:43,568 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool status
+2025-11-07 17:45:43,591 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:45:43,591 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active smbd
+2025-11-07 17:45:43,597 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:43,598 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:45:43,598 - samba_manager - INFO - Samba Manager - Running command: systemctl show smbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:45:43,608 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:43,608 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:45:43,608 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active nmbd
+2025-11-07 17:45:43,620 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:43,620 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:45:43,620 - samba_manager - INFO - Samba Manager - Running command: systemctl show nmbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:45:43,629 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:43,629 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+Running command: sudo systemctl is-active target
+Command returncode: 0
+Command stdout: active
+
+Running command: sudo systemctl show target --property=ActiveState,SubState --no-pager
+Command returncode: 0
+Command stdout: ActiveState=active
+SubState=exited
+
+INFO:     172.25.3.48:33546 - "GET /api/system/status?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33500 - "OPTIONS /api/system/info?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33496 - "OPTIONS /api/zfs/pools?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33516 - "OPTIONS /api/targets?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33528 - "OPTIONS /api/samba/shares?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33538 - "OPTIONS /api/network/interfaces?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33546 - "OPTIONS /api/system/info?_t=1762517743454 HTTP/1.1" 200 OK
+2025-11-07 17:45:43,655 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:45:43,681 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:33500 - "GET /api/zfs/pools?_t=1762517743454 HTTP/1.1" 200 OK
+=== GETTING TARGETS ===
+Running command: sudo targetcli ls /iscsi 2>/dev/null
+Command returncode: 0
+Command stdout: o- iscsi .............................................................................................................. [Targets: 2]
+  o- iqn.2025-09.local.ubuntu:pgdata ..................................................................................... [TPGs: 1]
+  | o- tpg1 .................................................................................................... [gen-acls, no-auth]
+  |   o- acls ............................................................................................................ [ACLs: 0]
+  |   o- luns ............................................................................................................ [LUNs: 1]
+  |   | o- lun0 ........................................................ [block/pgdata (/dev/zvol/pgdata/pgdata) (default_tg_pt_gp)]
+  |   o- portals ...................................................................................................... [Portals: 1]
+  |     o- 0.0.0.0:3260 ....................................................................................................... [OK]
+  o- iqn.2025-09.local.ubuntu:sqldata .................................................................................... [TPGs: 1]
+    o- tpg1 .................................................................................................... [gen-acls, no-auth]
+      o- acls ............................................................................................................ [ACLs: 0]
+      o- luns ............................................................................................................ [LUNs: 1]
+      | o- lun0 ................................................. [block/sqldata (/dev/zvol/sqldata/sqldata-vol) (default_tg_pt_gp)]
+      o- portals ...................................................................................................... [Portals: 1]
+        o- 0.0.0.0:3260 ....................................................................................................... [OK]
+
+Found target: iqn.2025-09.local.ubuntu:pgdata
+  - LUN 0: pgdata
+Found target: iqn.2025-09.local.ubuntu:sqldata
+  - LUN 0: sqldata
+Returning 2 targets
+INFO:     172.25.3.48:33496 - "GET /api/targets?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33516 - "GET /api/samba/shares?_t=1762517743454 HTTP/1.1" 200 OK
+2025-11-07 17:45:44,070 - network_manager - INFO - Found netplan files: ['50-cloud-init.yaml', '90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml']
+2025-11-07 17:45:44,071 - network_manager - INFO - Reading netplan file: /etc/netplan/50-cloud-init.yaml
+2025-11-07 17:45:44,086 - network_manager - INFO - Reading netplan file: /etc/netplan/90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml
+2025-11-07 17:45:44,109 - network_manager - INFO - Final DNS servers from netplan: []
+INFO:     172.25.3.48:33528 - "GET /api/network/interfaces?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33538 - "GET /api/system/info?_t=1762517743454 HTTP/1.1" 200 OK
+2025-11-07 17:45:44,170 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool status
+2025-11-07 17:45:44,201 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:45:44,201 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active smbd
+2025-11-07 17:45:44,209 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:44,209 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:45:44,210 - samba_manager - INFO - Samba Manager - Running command: systemctl show smbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:45:44,226 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:44,227 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:45:44,227 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active nmbd
+2025-11-07 17:45:44,237 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:44,240 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:45:44,240 - samba_manager - INFO - Samba Manager - Running command: systemctl show nmbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:45:44,267 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:44,267 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+Running command: sudo systemctl is-active target
+Command returncode: 0
+Command stdout: active
+
+Running command: sudo systemctl show target --property=ActiveState,SubState --no-pager
+Command returncode: 0
+Command stdout: ActiveState=active
+SubState=exited
+
+INFO:     172.25.3.48:33546 - "GET /api/system/status?_t=1762517743454 HTTP/1.1" 200 OK
+2025-11-07 17:45:44,268 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:45:44,323 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:33500 - "GET /api/zfs/pools?_t=1762517743454 HTTP/1.1" 200 OK
+=== GETTING TARGETS ===
+Running command: sudo targetcli ls /iscsi 2>/dev/null
+Command returncode: 0
+Command stdout: o- iscsi .............................................................................................................. [Targets: 2]
+  o- iqn.2025-09.local.ubuntu:pgdata ..................................................................................... [TPGs: 1]
+  | o- tpg1 .................................................................................................... [gen-acls, no-auth]
+  |   o- acls ............................................................................................................ [ACLs: 0]
+  |   o- luns ............................................................................................................ [LUNs: 1]
+  |   | o- lun0 ........................................................ [block/pgdata (/dev/zvol/pgdata/pgdata) (default_tg_pt_gp)]
+  |   o- portals ...................................................................................................... [Portals: 1]
+  |     o- 0.0.0.0:3260 ....................................................................................................... [OK]
+  o- iqn.2025-09.local.ubuntu:sqldata .................................................................................... [TPGs: 1]
+    o- tpg1 .................................................................................................... [gen-acls, no-auth]
+      o- acls ............................................................................................................ [ACLs: 0]
+      o- luns ............................................................................................................ [LUNs: 1]
+      | o- lun0 ................................................. [block/sqldata (/dev/zvol/sqldata/sqldata-vol) (default_tg_pt_gp)]
+      o- portals ...................................................................................................... [Portals: 1]
+        o- 0.0.0.0:3260 ....................................................................................................... [OK]
+
+Found target: iqn.2025-09.local.ubuntu:pgdata
+  - LUN 0: pgdata
+Found target: iqn.2025-09.local.ubuntu:sqldata
+  - LUN 0: sqldata
+Returning 2 targets
+INFO:     172.25.3.48:33496 - "GET /api/targets?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33516 - "GET /api/samba/shares?_t=1762517743454 HTTP/1.1" 200 OK
+2025-11-07 17:45:44,859 - network_manager - INFO - Found netplan files: ['50-cloud-init.yaml', '90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml']
+2025-11-07 17:45:44,859 - network_manager - INFO - Reading netplan file: /etc/netplan/50-cloud-init.yaml
+2025-11-07 17:45:44,875 - network_manager - INFO - Reading netplan file: /etc/netplan/90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml
+2025-11-07 17:45:44,892 - network_manager - INFO - Final DNS servers from netplan: []
+INFO:     172.25.3.48:33538 - "GET /api/network/interfaces?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33528 - "GET /api/system/info?_t=1762517743454 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53640 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53640 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53640 - "OPTIONS /api/system/status?_t=1762517756496 HTTP/1.1" 200 OK
+2025-11-07 17:45:56,699 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool status
+2025-11-07 17:45:56,729 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:45:56,729 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active smbd
+2025-11-07 17:45:56,739 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:56,743 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:45:56,743 - samba_manager - INFO - Samba Manager - Running command: systemctl show smbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:45:56,753 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:56,753 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:45:56,753 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active nmbd
+2025-11-07 17:45:56,773 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:56,774 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:45:56,774 - samba_manager - INFO - Samba Manager - Running command: systemctl show nmbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:45:56,789 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:56,790 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+Running command: sudo systemctl is-active target
+Command returncode: 0
+Command stdout: active
+
+Running command: sudo systemctl show target --property=ActiveState,SubState --no-pager
+Command returncode: 0
+Command stdout: ActiveState=active
+SubState=exited
+
+INFO:     172.25.3.48:53642 - "GET /api/system/status?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53640 - "OPTIONS /api/zfs/pools?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53654 - "OPTIONS /api/targets?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53660 - "OPTIONS /api/samba/shares?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53666 - "OPTIONS /api/network/interfaces?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53668 - "OPTIONS /api/system/info?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53642 - "OPTIONS /api/zfs/pools?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53640 - "OPTIONS /api/targets?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53654 - "OPTIONS /api/samba/shares?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53660 - "OPTIONS /api/network/interfaces?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53666 - "OPTIONS /api/system/info?_t=1762517756496 HTTP/1.1" 200 OK
+2025-11-07 17:45:56,883 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool status
+2025-11-07 17:45:56,904 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:45:56,904 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active smbd
+2025-11-07 17:45:56,911 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:56,912 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:45:56,912 - samba_manager - INFO - Samba Manager - Running command: systemctl show smbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:45:56,921 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:56,922 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:45:56,922 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active nmbd
+2025-11-07 17:45:56,931 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:56,931 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:45:56,932 - samba_manager - INFO - Samba Manager - Running command: systemctl show nmbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:45:56,942 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:45:56,943 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+Running command: sudo systemctl is-active target
+Command returncode: 0
+Command stdout: active
+
+Running command: sudo systemctl show target --property=ActiveState,SubState --no-pager
+Command returncode: 0
+Command stdout: ActiveState=active
+SubState=exited
+
+INFO:     172.25.3.48:53668 - "GET /api/system/status?_t=1762517756496 HTTP/1.1" 200 OK
+2025-11-07 17:45:56,945 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:45:56,962 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:53642 - "GET /api/zfs/pools?_t=1762517756496 HTTP/1.1" 200 OK
+=== GETTING TARGETS ===
+Running command: sudo targetcli ls /iscsi 2>/dev/null
+Command returncode: 0
+Command stdout: o- iscsi .............................................................................................................. [Targets: 2]
+  o- iqn.2025-09.local.ubuntu:pgdata ..................................................................................... [TPGs: 1]
+  | o- tpg1 .................................................................................................... [gen-acls, no-auth]
+  |   o- acls ............................................................................................................ [ACLs: 0]
+  |   o- luns ............................................................................................................ [LUNs: 1]
+  |   | o- lun0 ........................................................ [block/pgdata (/dev/zvol/pgdata/pgdata) (default_tg_pt_gp)]
+  |   o- portals ...................................................................................................... [Portals: 1]
+  |     o- 0.0.0.0:3260 ....................................................................................................... [OK]
+  o- iqn.2025-09.local.ubuntu:sqldata .................................................................................... [TPGs: 1]
+    o- tpg1 .................................................................................................... [gen-acls, no-auth]
+      o- acls ............................................................................................................ [ACLs: 0]
+      o- luns ............................................................................................................ [LUNs: 1]
+      | o- lun0 ................................................. [block/sqldata (/dev/zvol/sqldata/sqldata-vol) (default_tg_pt_gp)]
+      o- portals ...................................................................................................... [Portals: 1]
+        o- 0.0.0.0:3260 ....................................................................................................... [OK]
+
+Found target: iqn.2025-09.local.ubuntu:pgdata
+  - LUN 0: pgdata
+Found target: iqn.2025-09.local.ubuntu:sqldata
+  - LUN 0: sqldata
+Returning 2 targets
+INFO:     172.25.3.48:53640 - "GET /api/targets?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53654 - "GET /api/samba/shares?_t=1762517756496 HTTP/1.1" 200 OK
+2025-11-07 17:45:57,233 - network_manager - INFO - Found netplan files: ['50-cloud-init.yaml', '90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml']
+2025-11-07 17:45:57,233 - network_manager - INFO - Reading netplan file: /etc/netplan/50-cloud-init.yaml
+2025-11-07 17:45:57,256 - network_manager - INFO - Reading netplan file: /etc/netplan/90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml
+2025-11-07 17:45:57,289 - network_manager - INFO - Final DNS servers from netplan: []
+INFO:     172.25.3.48:53660 - "GET /api/network/interfaces?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53666 - "GET /api/system/info?_t=1762517756496 HTTP/1.1" 200 OK
+2025-11-07 17:45:57,299 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:45:57,336 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:53642 - "GET /api/zfs/pools?_t=1762517756496 HTTP/1.1" 200 OK
+=== GETTING TARGETS ===
+Running command: sudo targetcli ls /iscsi 2>/dev/null
+Command returncode: 0
+Command stdout: o- iscsi .............................................................................................................. [Targets: 2]
+  o- iqn.2025-09.local.ubuntu:pgdata ..................................................................................... [TPGs: 1]
+  | o- tpg1 .................................................................................................... [gen-acls, no-auth]
+  |   o- acls ............................................................................................................ [ACLs: 0]
+  |   o- luns ............................................................................................................ [LUNs: 1]
+  |   | o- lun0 ........................................................ [block/pgdata (/dev/zvol/pgdata/pgdata) (default_tg_pt_gp)]
+  |   o- portals ...................................................................................................... [Portals: 1]
+  |     o- 0.0.0.0:3260 ....................................................................................................... [OK]
+  o- iqn.2025-09.local.ubuntu:sqldata .................................................................................... [TPGs: 1]
+    o- tpg1 .................................................................................................... [gen-acls, no-auth]
+      o- acls ............................................................................................................ [ACLs: 0]
+      o- luns ............................................................................................................ [LUNs: 1]
+      | o- lun0 ................................................. [block/sqldata (/dev/zvol/sqldata/sqldata-vol) (default_tg_pt_gp)]
+      o- portals ...................................................................................................... [Portals: 1]
+        o- 0.0.0.0:3260 ....................................................................................................... [OK]
+
+Found target: iqn.2025-09.local.ubuntu:pgdata
+  - LUN 0: pgdata
+Found target: iqn.2025-09.local.ubuntu:sqldata
+  - LUN 0: sqldata
+Returning 2 targets
+INFO:     172.25.3.48:53654 - "GET /api/targets?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53640 - "GET /api/samba/shares?_t=1762517756496 HTTP/1.1" 200 OK
+2025-11-07 17:45:57,674 - network_manager - INFO - Found netplan files: ['50-cloud-init.yaml', '90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml']
+2025-11-07 17:45:57,675 - network_manager - INFO - Reading netplan file: /etc/netplan/50-cloud-init.yaml
+2025-11-07 17:45:57,706 - network_manager - INFO - Reading netplan file: /etc/netplan/90-NM-626dd384-8b3d-3690-9511-192b2c79b3fd.yaml
+2025-11-07 17:45:57,743 - network_manager - INFO - Final DNS servers from netplan: []
+INFO:     172.25.3.48:53666 - "GET /api/network/interfaces?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:53660 - "GET /api/system/info?_t=1762517756496 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:38978 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:38978 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:38988 - "OPTIONS /api/zfs/pools?_t=1762517866456 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:56092 - "OPTIONS /api/zfs/datasets?_t=1762517866456 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:56098 - "OPTIONS /api/zfs/compression-algorithms?_t=1762517866456 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:56108 - "OPTIONS /api/zfs/pools?_t=1762517866456 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:56116 - "OPTIONS /api/zfs/datasets?_t=1762517866456 HTTP/1.1" 200 OK
+2025-11-07 17:47:46,501 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:47:46,529 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:56126 - "GET /api/zfs/pools?_t=1762517866456 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:38988 - "OPTIONS /api/zfs/compression-algorithms?_t=1762517866456 HTTP/1.1" 200 OK
+2025-11-07 17:47:46,532 - zfs_manager - INFO - ZFS Manager - Running command: sudo zfs list -r -o name,used,avail,refer,mountpoint,type -H
+2025-11-07 17:47:46,559 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:47:46,560 - zfs_manager - INFO - ZFS Manager - Running command: sudo zfs get volsize -H -o value pgdata/pgdata
+2025-11-07 17:47:46,604 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:47:46,604 - zfs_manager - INFO - ZFS Manager - Running command: sudo zfs get volsize -H -o value sqldata/sqldata-vol
+2025-11-07 17:47:46,636 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:56092 - "GET /api/zfs/datasets?_t=1762517866456 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:56098 - "GET /api/zfs/compression-algorithms?_t=1762517866456 HTTP/1.1" 200 OK
+2025-11-07 17:47:46,648 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:47:46,700 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:38988 - "GET /api/zfs/pools?_t=1762517866456 HTTP/1.1" 200 OK
+2025-11-07 17:47:46,701 - zfs_manager - INFO - ZFS Manager - Running command: sudo zfs list -r -o name,used,avail,refer,mountpoint,type -H
+2025-11-07 17:47:46,782 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:47:46,783 - zfs_manager - INFO - ZFS Manager - Running command: sudo zfs get volsize -H -o value pgdata/pgdata
+2025-11-07 17:47:46,818 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:47:46,820 - zfs_manager - INFO - ZFS Manager - Running command: sudo zfs get volsize -H -o value sqldata/sqldata-vol
+2025-11-07 17:47:46,861 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:56126 - "GET /api/zfs/datasets?_t=1762517866456 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:56092 - "GET /api/zfs/compression-algorithms?_t=1762517866456 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33364 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:33366 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:38620 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:38632 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:38632 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:38620 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:38620 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:38632 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:38632 - "OPTIONS /health?_t=1762518062317 HTTP/1.1" 200 OK
+2025-11-07 17:51:02,325 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:51:02,379 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:51:02,581 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active smbd
+2025-11-07 17:51:02,589 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:51:02,589 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:51:02,589 - samba_manager - INFO - Samba Manager - Running command: systemctl show smbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:51:02,597 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:51:02,597 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:51:02,597 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active nmbd
+2025-11-07 17:51:02,604 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:51:02,604 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:51:02,604 - samba_manager - INFO - Samba Manager - Running command: systemctl show nmbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:51:02,612 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:51:02,612 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:51:02,612 - zfs_manager - INFO - ZFS Manager - Running command: sudo -n zpool list 2>&1
+2025-11-07 17:51:02,630 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+=== GETTING TARGETS ===
+Running command: sudo targetcli ls /iscsi 2>/dev/null
+Command returncode: 0
+Command stdout: o- iscsi .............................................................................................................. [Targets: 2]
+  o- iqn.2025-09.local.ubuntu:pgdata ..................................................................................... [TPGs: 1]
+  | o- tpg1 .................................................................................................... [gen-acls, no-auth]
+  |   o- acls ............................................................................................................ [ACLs: 0]
+  |   o- luns ............................................................................................................ [LUNs: 1]
+  |   | o- lun0 ........................................................ [block/pgdata (/dev/zvol/pgdata/pgdata) (default_tg_pt_gp)]
+  |   o- portals ...................................................................................................... [Portals: 1]
+  |     o- 0.0.0.0:3260 ....................................................................................................... [OK]
+  o- iqn.2025-09.local.ubuntu:sqldata .................................................................................... [TPGs: 1]
+    o- tpg1 .................................................................................................... [gen-acls, no-auth]
+      o- acls ............................................................................................................ [ACLs: 0]
+      o- luns ............................................................................................................ [LUNs: 1]
+      | o- lun0 ................................................. [block/sqldata (/dev/zvol/sqldata/sqldata-vol) (default_tg_pt_gp)]
+      o- portals ...................................................................................................... [Portals: 1]
+        o- 0.0.0.0:3260 ....................................................................................................... [OK]
+
+Found target: iqn.2025-09.local.ubuntu:pgdata
+  - LUN 0: pgdata
+Found target: iqn.2025-09.local.ubuntu:sqldata
+  - LUN 0: sqldata
+Returning 2 targets
+INFO:     172.25.3.48:38620 - "GET /health?_t=1762518062317 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:37572 - "OPTIONS /api/system/status?_t=1762518067749 HTTP/1.1" 200 OK
+2025-11-07 17:51:07,828 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool status
+2025-11-07 17:51:07,849 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+2025-11-07 17:51:07,850 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active smbd
+2025-11-07 17:51:07,857 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:51:07,858 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:51:07,860 - samba_manager - INFO - Samba Manager - Running command: systemctl show smbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:51:07,868 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:51:07,868 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+2025-11-07 17:51:07,869 - samba_manager - INFO - Samba Manager - Running command: systemctl is-active nmbd
+2025-11-07 17:51:07,877 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:51:07,877 - samba_manager - INFO - Samba Manager - Command stdout: active
+
+2025-11-07 17:51:07,877 - samba_manager - INFO - Samba Manager - Running command: systemctl show nmbd --property=ActiveState,SubState --no-pager
+2025-11-07 17:51:07,887 - samba_manager - INFO - Samba Manager - Command returncode: 0
+2025-11-07 17:51:07,887 - samba_manager - INFO - Samba Manager - Command stdout: ActiveState=active
+SubState=running
+
+Running command: sudo systemctl is-active target
+Command returncode: 0
+Command stdout: active
+
+Running command: sudo systemctl show target --property=ActiveState,SubState --no-pager
+Command returncode: 0
+Command stdout: ActiveState=active
+SubState=exited
+
+INFO:     172.25.3.48:37574 - "GET /api/system/status?_t=1762518067749 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:37572 - "OPTIONS /api/zfs/pools?_t=1762518067749 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:37576 - "OPTIONS /api/targets?_t=1762518067749 HTTP/1.1" 200 OK
+2025-11-07 17:51:07,893 - zfs_manager - INFO - ZFS Manager - Running command: sudo zpool list -H -o name,size,alloc,free,health
+2025-11-07 17:51:07,914 - zfs_manager - INFO - ZFS Manager - Command returncode: 0
+INFO:     172.25.3.48:37574 - "GET /api/zfs/pools?_t=1762518067749 HTTP/1.1" 200 OK
+=== GETTING TARGETS ===
+Running command: sudo targetcli ls /iscsi 2>/dev/null
+Command returncode: 0
+Command stdout: o- iscsi .............................................................................................................. [Targets: 2]
+  o- iqn.2025-09.local.ubuntu:pgdata ..................................................................................... [TPGs: 1]
+  | o- tpg1 .................................................................................................... [gen-acls, no-auth]
+  |   o- acls ............................................................................................................ [ACLs: 0]
+  |   o- luns ............................................................................................................ [LUNs: 1]
+  |   | o- lun0 ........................................................ [block/pgdata (/dev/zvol/pgdata/pgdata) (default_tg_pt_gp)]
+  |   o- portals ...................................................................................................... [Portals: 1]
+  |     o- 0.0.0.0:3260 ....................................................................................................... [OK]
+  o- iqn.2025-09.local.ubuntu:sqldata .................................................................................... [TPGs: 1]
+    o- tpg1 .................................................................................................... [gen-acls, no-auth]
+      o- acls ............................................................................................................ [ACLs: 0]
+      o- luns ............................................................................................................ [LUNs: 1]
+      | o- lun0 ................................................. [block/sqldata (/dev/zvol/sqldata/sqldata-vol) (default_tg_pt_gp)]
+      o- portals ...................................................................................................... [Portals: 1]
+        o- 0.0.0.0:3260 ....................................................................................................... [OK]
+
+Found target: iqn.2025-09.local.ubuntu:pgdata
+  - LUN 0: pgdata
+Found target: iqn.2025-09.local.ubuntu:sqldata
+  - LUN 0: sqldata
+Returning 2 targets
+INFO:     172.25.3.48:37572 - "GET /api/targets?_t=1762518067749 HTTP/1.1" 200 OK
+INFO:     172.25.3.48:37582 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:34144 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:34144 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:37582 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:54578 - "POST /api/auth/verify HTTP/1.1" 200 OK
+INFO:     172.25.3.48:54582 - "POST /api/auth/verify HTTP/1.1" 200 OK

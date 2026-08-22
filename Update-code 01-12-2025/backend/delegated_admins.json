@@ -1,0 +1,8 @@
+{
+  "admin": [
+    "adminuser"
+  ],
+  "readonly": [
+    "readonlyuser"
+  ]
+}

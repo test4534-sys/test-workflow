@@ -1,0 +1,16 @@
+
+> zfs-iscsi-manager-frontend@2.0.0 dev
+> vite
+
+
+  VITE v7.1.12  ready in 367 ms
+
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: http://172.25.3.48:3000/
+5:45:00 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+5:45:42 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+5:45:56 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+5:47:35 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+5:48:23 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+5:50:02 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+5:54:24 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
