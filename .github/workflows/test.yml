@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  test-runner:
+  deploy:
     runs-on:
       - self-hosted
       - Linux
@@ -14,46 +14,59 @@ jobs:
       - test-oci
 
     steps:
-      # 1. Download the latest code from GitHub
+      # Download latest code
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      # 2. Verify the self-hosted runner
-      - name: Test runner
+      # Check runner and Docker
+      - name: Verify environment
         run: |
-          echo "GitHub Actions is working"
           echo "Runner: $(hostname)"
           echo "User: $(whoami)"
-          echo "Operating System:"
-          uname -a
-
-      # 3. Verify Docker
-      - name: Test Docker
-        run: |
-          echo "Docker version:"
           docker --version
 
-          echo "Docker status:"
-          docker ps
-
-      # 4. Build Backend Docker image
-      - name: Build Backend Docker image
+      # Build Backend
+      - name: Build Backend image
         run: |
-          echo "Building backend image..."
           docker build \
             -t zfs-backend:test \
             "./Update-code 01-12-2025/backend"
 
-      # 5. Build Frontend Docker image
-      - name: Build Frontend Docker image
+      # Build Frontend
+      - name: Build Frontend image
         run: |
-          echo "Building frontend image..."
           docker build \
             -t zfs-frontend:test \
             "./Update-code 01-12-2025/frontend"
 
-      # 6. Verify that both images were created
-      - name: Verify Docker images
+      # Deploy Backend
+      - name: Deploy Backend
         run: |
-          echo "Available Docker images:"
-          docker images
+          docker run -d \
+            --name zfs-backend \
+            --restart unless-stopped \
+            -p 2435:2435 \
+            zfs-backend:test
+
+      # Deploy Frontend
+      - name: Deploy Frontend
+        run: |
+          docker run -d \
+            --name zfs-frontend \
+            --restart unless-stopped \
+            -p 8080:80 \
+            zfs-frontend:test
+
+      # Verify deployment
+      - name: Verify deployment
+        run: |
+          sleep 5
+
+          echo "Running containers:"
+          docker ps
+
+          echo "Testing Backend:"
+          curl --fail http://localhost:2435
+
+          echo "Testing Frontend:"
+          curl --fail http://localhost:8080
