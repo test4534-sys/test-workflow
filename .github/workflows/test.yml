@@ -42,6 +42,8 @@ jobs:
       # Deploy Backend
       - name: Deploy Backend
         run: |
+          docker rm -f zfs-backend || true
+
           docker run -d \
             --name zfs-backend \
             --restart unless-stopped \
@@ -51,6 +53,8 @@ jobs:
       # Deploy Frontend
       - name: Deploy Frontend
         run: |
+          docker rm -f zfs-frontend || true
+
           docker run -d \
             --name zfs-frontend \
             --restart unless-stopped \
