@@ -25,6 +25,17 @@ jobs:
           echo "User: $(whoami)"
           docker --version
 
+      # Test Docker Hub connectivity and login
+      - name: Test Docker Hub login
+        run: |
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login \
+            -u "${{ secrets.DOCKERHUB_USERNAME }}" \
+            --password-stdin
+
+          echo "Docker Hub login successful"
+
+          docker logout
+
       # Build Backend
       - name: Build Backend image
         run: |
